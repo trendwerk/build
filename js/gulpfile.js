@@ -7,15 +7,15 @@ var gulp = require('gulp'),
     cache = require('gulp-cached'),
     beep = require('beepbeep'),
     plumber = require('gulp-plumber'),
-    phpcs = require('gulp-phpcs');
+    lint = require('gulp-jshint');
 
 /**
  * Setup files to watch
  */
 var files = [
-  '**/*.php',
-  '!node_modules/**/*.*',
-  '!vendor/**/*.*'
+  '**/*.js',
+  '!gulpfile.js',
+  '!node_modules/**/*.*'
 ];
 
 /**
@@ -32,29 +32,27 @@ gulp.src = function() {
 };
 
 /**
- * PHP CodeSniffer
+ * JavaScript lint
  */
-gulp.task('phpcs', function() {
+gulp.task('lint', function() {
   return gulp.src(files)
 
   // Use cache to filter out unmodified files
-  .pipe(cache('phpcs'))
+  .pipe(cache('lint'))
 
-  // Sniff code
-  .pipe(phpcs({
-    bin: '~/.composer/vendor/bin/phpcs',
-    standard: 'PSR2',
-    warningSeverity: 0
-  }))
+  // Lint
+  .pipe(lint())
 
-  // Log errors and fail afterwards
-  .pipe(phpcs.reporter('log'))
-  .pipe(phpcs.reporter('fail'));
+  // Report errors
+  .pipe(lint.reporter())
+
+  // Make reporter fail task on error
+  .pipe(lint.reporter('fail'));
 });
 
 /**
  * Watch
  */
 gulp.task('default', function() {
-  gulp.watch(files, ['phpcs']);
+  gulp.watch(files, ['lint']);
 });

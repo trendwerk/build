@@ -3,7 +3,7 @@
     "beepbeep": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.0",
-    "gulp-phpcs": "^0.6.0",
+    "gulp-jshint": "^2.0.0",
     "gulp-plumber": "^1.1.0"
   }
 }
