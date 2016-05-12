@@ -40,7 +40,9 @@ gulp.task('lint', function() {
   .pipe(cache('lint'))
 
   // Lint
-  .pipe(lint())
+  .pipe(lint({
+    'config': 'config/lint/scss.yml'
+  }))
 
   // Make reporter fail task on error
   .pipe(lint.failReporter());
